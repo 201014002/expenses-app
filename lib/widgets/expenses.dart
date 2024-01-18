@@ -1,4 +1,6 @@
 import 'package:expenses/models/expense.dart';
+import 'package:expenses/widgets/expanses_list/expanses_list.dart';
+import 'package:expenses/widgets/expanses_list/new_expense.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
@@ -11,19 +13,19 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [
     Expense(
-      category: Category.word,
+      category: Category.work,
       title: 'Flutter Course',
       amount: 29.9,
       date: DateTime.now(),
     ),
     Expense(
-      category: Category.word,
+      category: Category.leisure,
       title: 'Cinema',
       amount: 9.5,
       date: DateTime.now(),
     ),
     Expense(
-      category: Category.word,
+      category: Category.food,
       title: 'Breakfast',
       amount: 39.8,
       date: DateTime.now(),
@@ -33,16 +35,24 @@ class _ExpensesState extends State<Expenses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('data'),
+        title: const Text('Expense Tracker'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (ctx) => NewExpense()
+              );
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text('data'),
           Expanded(
-            child: ListView.builder(
-                itemCount: _registeredExpenses.length,
-                itemBuilder: (context, index) =>
-                    Text(_registeredExpenses[index].title)),
+            child: ExpensesList(expenses: _registeredExpenses),
           )
         ]),
       ),

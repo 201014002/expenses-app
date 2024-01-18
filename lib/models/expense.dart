@@ -1,8 +1,18 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 const uuid = Uuid();
+final dateFormate=DateFormat.yMd();
 
-enum Category { food, trave, leisure, word }
+enum Category { food, travel, leisure, work }
+var categoryIcons={
+  Category.food:Icons.lunch_dining,
+  Category.travel:Icons.flight_takeoff,
+  Category.leisure:Icons.movie,
+  Category.work:Icons.work,
+};
 
 class Expense {
   final String id;
@@ -11,6 +21,10 @@ class Expense {
   final DateTime date;
   final Category category;
 
+
+  String get formattedDate{
+    return dateFormate.format(date);
+  }
   Expense(
       {required this.category,
       required this.title,
@@ -19,9 +33,3 @@ class Expense {
       : id = uuid.v4();
 }
 
-var v1 = Expense(
-  category: Category.word,
-  title: 'Flutter Course',
-  amount: 29.9,
-  date: DateTime.now(),
-);
