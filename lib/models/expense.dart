@@ -4,14 +4,15 @@ import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
 const uuid = Uuid();
-final dateFormate=DateFormat.yMd();
+final dateFormate = DateFormat.yMd();
 
 enum Category { food, travel, leisure, work }
-var categoryIcons={
-  Category.food:Icons.lunch_dining,
-  Category.travel:Icons.flight_takeoff,
-  Category.leisure:Icons.movie,
-  Category.work:Icons.work,
+
+var categoryIcons = {
+  Category.food: Icons.lunch_dining,
+  Category.travel: Icons.flight_takeoff,
+  Category.leisure: Icons.movie,
+  Category.work: Icons.work,
 };
 
 class Expense {
@@ -21,10 +22,10 @@ class Expense {
   final DateTime date;
   final Category category;
 
-
-  String get formattedDate{
+  String get formattedDate {
     return dateFormate.format(date);
   }
+
   Expense(
       {required this.category,
       required this.title,
@@ -33,3 +34,21 @@ class Expense {
       : id = uuid.v4();
 }
 
+class ExpenseBucket {
+  final Category category;
+  final List<Expense> expenses;
+
+  ExpenseBucket(this.category, this.expenses);
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((element) => element.category == category)
+            .toList();
+  double get totalExpenses {
+    double sum = 0;
+    for (var expense in expenses) {
+      sum = sum + expense.amount;
+    }
+
+    return sum;
+  }
+}
